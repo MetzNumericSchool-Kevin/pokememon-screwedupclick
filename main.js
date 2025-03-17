@@ -62,7 +62,13 @@ const bush = document.querySelectorAll('.bush');
 fetchPokemon();
 
 // restart button
-var restartButton = document.getElementById('rejouer');
-restartButton.addEventListener('click', () => {
-    initializeGame();
-});
+document.getElementById('rejouer').addEventListener('click',restartGame);
+
+function restartGame() {
+    // réinitialise le jeu
+    let randomno = Math.floor(Math.random() * 100 + 1);
+    let attempts = 0;
+
+    // restart game elements
+    document.getElementById('rejouer').style.display = 'block';
+}
