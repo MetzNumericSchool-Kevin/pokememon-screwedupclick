@@ -6,6 +6,14 @@ async function fetchPokemon() {
 
 fetchPokemon();
 
-bush.addEventListener("click", () => {
-    console.log("click");
-});
+// Get the bush element once and store it in a variable
+const bush = document.querySelector('.bush');
+
+// Add event listener using modern syntax
+if (bush) {
+    bush.addEventListener('click', () => {
+        bush.style.display = 'none';
+    });
+} else {
+    console.warn('Bush element not found in the document');
+}
