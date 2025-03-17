@@ -6,6 +6,8 @@ async function fetchPokemon() {
     const response = await fetch("./data/pokemon.json");
     pokemonData = await response.json();
     console.log(pokemonData);
+    // Initialize the game after data is loaded
+    initializeGame();
 }
 
 function createPokemonPairs() {
@@ -22,35 +24,45 @@ function getRandomPokemon() {
     return pokemonData[randomIndex];
 }
 
-fetchPokemon();
+function initializeGame() {
+    // Create pairs
+    createPokemonPairs();
 
-const pairOfPokemonIds = ["pikachu","pikachu", "charmander", "charmander", "bulbasaur", "bulbasaur", "squirtle", "squirtle"];
+    // Add click listeners
+    bush.forEach((element, index) => {
+        element.addEventListener('click', () => {
+            if (clickedBushes.has(index)) return; // Prevent clicking the same bush twice
+            
+            const pokemon = pokemonPairs[index];
+            if (!pokemon) return; // Safety check
+            
+            // Create and show the Pokémon image
+            const pokemonImage = document.createElement('img');
+            pokemonImage.src = pokemon.sprite;
+            pokemonImage.style.width = '100px';
+            pokemonImage.style.height = '100px';
+            pokemonImage.style.position = 'absolute';
+            pokemonImage.style.left = element.offsetLeft + 'px';
+            pokemonImage.style.top = element.offsetTop + 'px';
+            document.body.appendChild(pokemonImage);
+            
+            // Hide the bush
+            element.style.display = 'none';
+            
+            // Mark this bush as clicked
+            clickedBushes.add(index);
+        });
+    });
+}
 
 // bush element dans const
 const bush = document.querySelectorAll('.bush');
 
-// Creation des paires
-createPokemonPairs();
+// Start the game by fetching Pokemon data
+fetchPokemon();
 
-bush.forEach((element, index) => {
-    element.addEventListener('click', () => {
-        if (clickedBushes.has(index)) return; // Prevent clicking the same bush twice
-        
-        const pokemon = pokemonPairs[index];
-        // Create and show the Pokémon image
-        const pokemonImage = document.createElement('img');
-        pokemonImage.src = pokemon.sprite;
-        pokemonImage.style.width = '100px';
-        pokemonImage.style.height = '100px';
-        pokemonImage.style.position = 'absolute';
-        pokemonImage.style.left = element.offsetLeft + 'px';
-        pokemonImage.style.top = element.offsetTop + 'px';
-        document.body.appendChild(pokemonImage);
-        
-        // Hide the bush
-        element.style.display = 'none';
-        
-        // Mark this bush as clicked
-        clickedBushes.add(index);
-    });
+// restart button
+var restartButton = document.getElementById('rejouer');
+restartButton.addEventListener('click', () => {
+    initializeGame();
 });
