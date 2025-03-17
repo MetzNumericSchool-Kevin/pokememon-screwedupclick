@@ -1,5 +1,5 @@
 async function fetchPokemon() {
-    const response = await fetch("http://localhost:5500/data/pokemon.json");
+    const response = await fetch("./data/pokemon.json");
     const data = await response.json();
     console.log(data);
 }
@@ -7,13 +7,10 @@ async function fetchPokemon() {
 fetchPokemon();
 
 // Get the bush element once and store it in a variable
-const bush = document.querySelector('.bush');
+const bush = document.querySelectorAll('.bush');
 
-// Add event listener using modern syntax
-if (bush) {
-    bush.addEventListener('click', () => {
-        bush.style.display = 'none';
+bush.forEach(element => {
+    element.addEventListener('click', () => {
+        element.style.display = 'none';
     });
-} else {
-    console.warn('Bush element not found in the document');
-}
+});
